@@ -7,7 +7,7 @@ public class Board {
         initializeBoard();
     }
 
-    public void initializeBoard() {
+    private void initializeBoard() {
 
         for (int i = 0; i < SIZE; i++) {
 
@@ -59,5 +59,53 @@ public class Board {
             System.out.println();
         }
     }
+
+    public void locateBoat(int randomRow, int randomColumn, int row, int column, char letra){
+
+
+            int columnposition = randomColumn;
+
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+
+                mapBoard[randomRow][randomColumn] = letra;
+
+                randomColumn++;
+            }
+
+            randomColumn = columnposition;
+
+                randomRow++;
+        }
+
+
+
+    }
+
+    public boolean validatePosition(int randomRow, int randomColumn, int row, int column) {
+        // Verificar que los índices estén dentro de los límites válidos
+        if (randomRow < 0 || randomRow >= SIZE || randomColumn < 0 || randomColumn >= SIZE) {
+            return false;
+        }
+    
+        // Verificar que el barco encaje dentro del tablero
+        if (randomRow + row > SIZE || randomColumn + column > SIZE) {
+            return false;
+        }
+    
+        // Verificar que las posiciones no estén ocupadas por otro barco y haya al menos una celda de separación
+        for (int i = randomRow - 1; i <= randomRow + row; i++) {
+            for (int j = randomColumn - 1; j <= randomColumn + column; j++) {
+                if (i >= 0 && i < SIZE && j >= 0 && j < SIZE) {
+                    if (mapBoard[i][j] != '~') {
+                        return false;
+                    }
+                }
+            }
+        }
+    
+        return true;
+    }
+    
     
 }
