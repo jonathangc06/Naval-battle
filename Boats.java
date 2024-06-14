@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Boats {
@@ -5,13 +7,37 @@ public class Boats {
     int rows;
     int columns;
     char letra;
+    private int partesRestantes;
+    private static List<Boats> boatsList = new ArrayList<>();
+
+
+    public Boats(){
+
+    }
 
     public Boats(String name, int rows, int columns, char letra) {
         this.name = name;
         this.rows = rows;
         this.columns = columns;
         this.letra = letra;
+        this.partesRestantes = rows * columns;
+        boatsList.add(this);
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public char  getLetra() {
+        return letra;
+    }
+    public int getRows(){
+        return  rows;
+    }
+    public int getColuns(){
+        return  columns;
+    }
+
 
     public void positionBoatsRandomly(Board board) {
         int randomPositionRows;
@@ -42,6 +68,32 @@ public class Boats {
         }
         
     }
+
+    public void receiveAttack(char boatChar) {
+        Boats boat = Boats.findBoatByLetter(boatChar);
+
+        if (boat != null) {
+            boat.partesRestantes--; // Decrementa la cantidad de partes restantes cuando el barco recibe un ataque
+            System.out.println("¡El barco " + boat.getName() + " ha recibido un ataque!");
+            if (boat.partesRestantes <= 0) {
+                System.out.println("¡El barco " + boat.getName() + " se ha hundido!");
+            } else {
+                System.out.println("Partes restantes del barco " + boat.getName() + ": " + boat.partesRestantes);
+            }
+        } else {
+            System.out.println("No se encontró ningún barco con la letra " + boatChar);
+        }
+    }
+
+    public static Boats findBoatByLetter(char letter) {
+        for (Boats boat : boatsList) {
+            if (boat.getLetra() == letter) {
+                return boat; // Devuelve el barco que coincide con la letra
+            }
+        }
+        return null; // Retorna null si no se encuentra ningún barco con esa letra
+    }
+
 
  
 }

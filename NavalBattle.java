@@ -14,6 +14,11 @@ public class NavalBattle {
         boat4.positionBoatsRandomly(board);
         boat5.positionBoatsRandomly(board);
 
+
+        board.showInvisibleBoard();
         board.showBoard();
+
+        Game game = new Game();
+        game.atackPosition(board);
     }
 }
